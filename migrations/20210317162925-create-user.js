@@ -26,6 +26,14 @@ module.exports = {
       role: {
         type: Sequelize.STRING
       },
+      location: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      image: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
