@@ -1,5 +1,8 @@
+require("dotenv").config();
 const { User } = require("../../models");
 const Joi = require("joi");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
   const { email, password } = req.body;
@@ -23,7 +26,7 @@ module.exports = async (req, res) => {
 
     const user = await User.findOne({
       where: { email: email },
-      attributes: ["id", "email", "fullName", "gender", "phone", "role"],
+      // attributes: ["id", "email", "fullName", "gender", "phone", "role"],
     });
 
     if (!user) {
@@ -33,13 +36,28 @@ module.exports = async (req, res) => {
       });
     }
 
-    // compare password nya
-    // jika password salah
+    const isValidPass = await bcrypt.compare(password, user.password);
+
+    if (!isValidPass) {
+      return res.status(400).json({
+        status: "login failed",
+        message: "your credential is not failed",
+      });
+    }
+
+    const { JWT_SECRET } = process.env;
+
+    const token = jwt.sign({ id: user.id }, JWT_SECRET);
 
     return res.json({
       status: "success",
       data: {
-        user: user,
+        user: {
+          fullName: user.fullName,
+          email: user.email,
+          token: token
+        },
+
       },
     });
   } catch (error) {

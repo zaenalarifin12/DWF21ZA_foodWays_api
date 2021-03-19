@@ -1,6 +1,9 @@
+require("dotenv").config();
+
 const bcrypt = require("bcrypt");
 const { User } = require("../../models");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
   const { email, password, fullName, gender, phone, role } = req.body;
@@ -19,7 +22,7 @@ module.exports = async (req, res) => {
 
     if (error) {
       return res.status(400).json({
-        message: "error validation",
+        message: "validation failed",
         error: {
           message: error.details[0].message,
         },
@@ -32,12 +35,13 @@ module.exports = async (req, res) => {
 
     if (user) {
       return res.status(409).json({
-        status: "error",
-        message: "user already exist",
+        status: "register failed",
+        message: "email already registered",
       });
     }
 
-    const encrypPassword = await bcrypt.hash(password, 10);
+    const hashStrength = 10;
+    const encrypPassword = await bcrypt.hash(password, hashStrength);
 
     const data = {
       email: email,
@@ -50,12 +54,16 @@ module.exports = async (req, res) => {
 
     const createUser = await User.create(data);
 
+    const { JWT_SECRET } = process.env;
+
+    const token = jwt.sign({ id: createUser.id }, JWT_SECRET);
+
     return res.json({
       status: "success",
       data: {
         user: {
           fullName: createUser.fullName,
-          token: "ini token",
+          token: token,
           role: createUser.role,
         },
       },
