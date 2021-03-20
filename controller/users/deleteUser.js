@@ -3,13 +3,20 @@ const { User } = require("../../models/");
 module.exports = async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findOne({
-    where: {
-      id: id,
-    },
-  });
+  try {
+    const user = await User.findOne({
+      where: {
+        id: id,
+      },
+    });
+    
+    if (user == null) {
+      return res.status(404).json({
+        status: "not exist",
+        message: "user not exists",
+      });
+    }
 
-  if (user) {
     User.destroy({
       where: { id: id },
     });
@@ -20,10 +27,5 @@ module.exports = async (req, res) => {
         id: id,
       },
     });
-  } else {
-    return res.status(404).json({
-      status: "not exist",
-      message: "user not exists",
-    });
-  }
+  } catch (error) {}
 };

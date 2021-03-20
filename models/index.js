@@ -48,44 +48,4 @@ db.product = require("./product")(sequelize, Sequelize);
 db.order = require("./order")(sequelize, Sequelize);
 db.transaction = require("./transaction")(sequelize, Sequelize);
 
-db.user.hasMany(db.product, {
-  foreignKey: "userId",
-  as: "products",
-});
-
-db.product.belongsTo(db.user, {
-  foreignKey: "userId",
-  as: "user",
-});
-/////////////////////////////////////////////
-db.product.hasMany(db.order, {
-  foreignKey: "productId",
-  as: "products",
-});
-
-db.order.belongsTo(db.product, {
-  foreignKey: "productId",
-  as: "products",
-});
-//////////////////////////////////////////////
-db.user.hasMany(db.transaction, {
-  foreignKey: "userId",
-  as: "users",
-});
-
-db.transaction.belongsTo(db.user, {
-  foreignKey: "userId",
-  as: "users",
-});
-
-db.transaction.hasMany(db.order, {
-  foreignKey: "transactionId",
-  as: "transactions",
-});
-
-db.order.belongsTo(db.transaction, {
-  foreignKey: "transactionId",
-  as: "transactions",
-});
-
 module.exports = db;

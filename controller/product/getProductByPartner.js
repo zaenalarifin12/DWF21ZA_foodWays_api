@@ -1,5 +1,4 @@
-const db = require("../../models");
-const Product = db.product;
+const { Product } = require("../../models");
 
 module.exports = async (req, res) => {
   const { userId } = req.params;

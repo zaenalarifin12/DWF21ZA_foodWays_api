@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const { authenticated } = require("../middleware/auth");
+const { uploadFile } = require("../middleware/upload");
+
 const AuthController = require("../controller/auth");
 const UserController = require("../controller/users");
 const ProductController = require("../controller/product");
@@ -18,8 +21,19 @@ router.delete("/user/:id", UserController.deleteUser);
 router.get("/products", ProductController.getAllProduct);
 router.get("/products/:userId", ProductController.getProductByPartner);
 router.get("/product/:productId", ProductController.getDetailProduct);
-router.get("/product", ProductController.addProduct);
-router.get("/product/:productId", ProductController.editProduct);
+router.post(
+  "/product",
+  authenticated,
+  uploadFile("image"),
+  ProductController.addProduct
+);
+router.put(
+  "/product/:productId",
+  authenticated,
+  uploadFile("image"),
+  ProductController.editProduct
+);
+router.delete("/product/:productId", ProductController.deleteProduct);
 
 // transaction
 router.get("/transactions/:userId", TransactionController.getTransaction);
