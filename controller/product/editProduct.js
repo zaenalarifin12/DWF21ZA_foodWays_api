@@ -14,12 +14,15 @@ module.exports = async (req, res) => {
       },
     });
 
+    
+
     if (oldProduct == null) {
-      return res.status.json({
-        status: "failed",
-        message: "product not found",
-      });
+        return res.status(404).json({
+            status: "failed",
+            message: "product not found",
+          });  
     }
+    
 
     const editProduct = await Product.update(
       {
@@ -56,5 +59,7 @@ module.exports = async (req, res) => {
         product: product,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    //   console.log(error);
+  }
 };

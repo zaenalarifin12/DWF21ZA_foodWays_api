@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Order.belongsTo(models.Product, {
         foreignKey: "productId",
-        as: "products",
+        as: "product",
       });
 
       Order.belongsTo(models.Transaction, {
         foreignKey: "transactionId",
-        as: "transactions",
+        as: "transaction",
       });
     }
   }

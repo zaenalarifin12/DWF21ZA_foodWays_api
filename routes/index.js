@@ -38,7 +38,7 @@ router.delete("/product/:productId", ProductController.deleteProduct);
 // transaction
 router.get("/transactions/:userId", TransactionController.getTransaction);
 router.get("/transaction/:id", TransactionController.getDetailTransaction);
-router.post("/transaction", TransactionController.addTransaction);
+router.post("/transaction", authenticated, TransactionController.addTransaction);
 router.put("/transaction/:id", TransactionController.editTransaction);
 router.delete("/transaction/:id", TransactionController.deleteTransaction);
 router.get("/my-transactions", TransactionController.getUserTransaction);
