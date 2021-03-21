@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Transaction.init(
     {
+      status: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },
     {

@@ -1,8 +1,8 @@
-const {  transactionsByUserId } = require("../../repositories/transaction");
+const { transactionsByUserId } = require("../../repositories/transaction");
 
 module.exports = async (req, res) => {
   try {
-    const transaction = await transactionsByUserId(req.params.userId);
+    const transaction = await transactionsByUserId(req.userId.id);
 
     return res.json({
       status: "success",
@@ -11,6 +11,6 @@ module.exports = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+      
   }
 };

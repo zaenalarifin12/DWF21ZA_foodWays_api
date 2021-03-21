@@ -3,7 +3,7 @@ const deleteTransaction = require("./deleteTransaction");
 const editTransaction = require("./editTransaction");
 const getDetailTransaction = require("./getDetailTransaction");
 const getTransaction = require("./getTransaction");
-const getUserTransaction = require("./getUserTransaction");
+const myTransaction = require("./myTransaction");
 
 module.exports = {
   addTransaction,
@@ -11,5 +11,5 @@ module.exports = {
   editTransaction,
   getDetailTransaction,
   getTransaction,
-  getUserTransaction,
+  myTransaction,
 };
