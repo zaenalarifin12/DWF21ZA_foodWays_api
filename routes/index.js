@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { authenticated } = require("../middleware/auth");
 const { uploadFile } = require("../middleware/upload");
+const { permit } = require("../middleware/permit");
 
 const AuthController = require("../controller/auth");
 const UserController = require("../controller/users");
@@ -12,10 +13,34 @@ const TransactionController = require("../controller/transaction");
 // auth
 router.post("/login", AuthController.login);
 router.post("/register", AuthController.register);
+router.get("/check-auth", authenticated, AuthController.checkAuth);
+
 
 // users
 router.get("/users", UserController.getUser);
-router.delete("/user/:id", UserController.deleteUser);
+router.put(
+  "/user",
+  authenticated,
+  uploadFile("image"),
+  UserController.editUser
+);
+router.delete(
+  "/user/:id",
+  authenticated,
+
+  UserController.deleteUser
+);
+
+router.get(
+  "/user/:userId",
+  UserController.showUser
+);
+
+router.patch(
+  "/userLocation",
+  authenticated,
+  UserController.editLocation
+);
 
 // products
 router.get("/products", ProductController.getAllProduct);
@@ -24,16 +49,22 @@ router.get("/product/:productId", ProductController.getDetailProduct);
 router.post(
   "/product",
   authenticated,
+  permit("partner"),
   uploadFile("image"),
   ProductController.addProduct
 );
 router.put(
   "/product/:productId",
   authenticated,
+  permit("partner"),
   uploadFile("image"),
   ProductController.editProduct
 );
-router.delete("/product/:productId", ProductController.deleteProduct);
+router.delete(
+  "/product/:productId",
+  permit("partner"),
+  ProductController.deleteProduct
+);
 
 // transaction
 router.get("/transactions/:userId", TransactionController.getTransaction);

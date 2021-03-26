@@ -1,24 +1,12 @@
 const { Product } = require("../../models");
 const { User } = require("../../models");
+const { productById } = require("../../repositories/product");
 
 module.exports = async (req, res) => {
   const { productId } = req.params;
 
   try {
-    const product = await Product.findOne({
-      where: {
-        id: productId,
-      },
-      attributes: ["id", "title", "price", "image"],
-
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: ["id", "fullName", "email", "phone", "location"],
-        },
-      ],
-    });
+    const product = await productById(req, productId);
 
     if (product == null) {
       return res.status(404).json({

@@ -63,6 +63,7 @@ module.exports = async (req, res) => {
       data: {
         user: {
           fullName: createUser.fullName,
+          email: createUser.email,
           token: token,
           role: createUser.role,
         },

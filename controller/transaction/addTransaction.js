@@ -6,9 +6,21 @@ const { transactionById } = require("../../repositories/transaction");
 
 module.exports = async (req, res) => {
   try {
+    req.body.products.map(async (product) => {
+      let p = await Product.findOne({ where: { id: product.id } });
+
+      if (p == null) {
+        return res.status(404).json({
+          message: "product not found",
+        });
+      }
+    });
+
     const newTransaction = await Transaction.create({
+      partnerId: req.body.partnerId,
       userId: req.userId.id,
-      status: "success",
+      address: req.body.address,
+      status: "waiting approve",
     });
 
     let products = req.body.products.map((product) => ({

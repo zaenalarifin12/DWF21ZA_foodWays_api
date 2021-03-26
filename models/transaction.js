@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "user",
       });
 
+      Transaction.belongsTo(models.User, {
+        foreignKey: "partnerId",
+        as: "partner",
+      });
+
       Transaction.hasMany(models.Order, {
         foreignKey: "transactionId",
         as: "orders",
@@ -22,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Transaction.init(
     {
+      address: DataTypes.STRING,
       status: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },

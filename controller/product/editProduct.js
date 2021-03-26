@@ -1,28 +1,29 @@
 const { Product } = require("../../models");
 const { User } = require("../../models/");
+const { productById } = require("../../repositories/product");
 
 module.exports = async (req, res) => {
   try {
-
     const productId = req.params.productId;
 
     const image = req.files.image[0].filename;
 
-    const oldProduct = await Product.findOne({
-      where: {
-        id: productId,
-      },
-    });
-
+    const oldProduct = await productById(req, productId)
     
 
     if (oldProduct == null) {
-        return res.status(404).json({
-            status: "failed",
-            message: "product not found",
-          });  
+      return res.status(404).json({
+        status: "failed",
+        message: "product not found",
+      });
     }
-    
+
+    if (oldProduct.user.id != req.userId.id) {
+      return res.status(403).json({
+        status: "forbidden",
+        message: "forbidden",
+      });
+    }
 
     const editProduct = await Product.update(
       {
@@ -36,22 +37,8 @@ module.exports = async (req, res) => {
         },
       }
     );
-    
 
-    const product = await Product.findOne({
-      where: {
-        id: productId,
-      },
-
-      atrributes: ["id", "title", "price", "image"],
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: ["id", "fullName", "email", "phone", "location"],
-        },
-      ],
-    });
+    const product = await productById(req, oldProduct.id);
 
     return res.json({
       status: "success",
