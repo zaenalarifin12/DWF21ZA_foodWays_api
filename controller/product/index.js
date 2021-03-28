@@ -4,6 +4,8 @@ const editProduct = require("./editProduct");
 const getAllProduct = require("./getAllProduct");
 const getDetailProduct = require("./getDetailProduct");
 const getProductByPartner = require("./getProductByPartner");
+const myProducts = require("./myProducts");
+const getLastProduct = require("./getLastProduct");
 
 module.exports = {
   addProduct,
@@ -12,4 +14,6 @@ module.exports = {
   getAllProduct,
   getDetailProduct,
   getProductByPartner,
+  myProducts,
+  getLastProduct,
 };

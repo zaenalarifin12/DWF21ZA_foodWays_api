@@ -3,9 +3,10 @@ const { transactionById } = require("../../repositories/transaction");
 const Transaction = db.transaction;
 
 module.exports = async (req, res) => {
-  const { id } = req.params;
 
   try {
+    const { id } = req.params;
+
     const transaction = await transactionById(id);
 
     if (transaction == null) {

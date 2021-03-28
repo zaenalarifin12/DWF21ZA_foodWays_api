@@ -3,9 +3,8 @@ const { User } = require("../../models");
 const { productById } = require("../../repositories/product");
 
 module.exports = async (req, res) => {
-  const { productId } = req.params;
-
   try {
+    const { productId } = req.params;
     const product = await productById(req, productId);
 
     if (product == null) {

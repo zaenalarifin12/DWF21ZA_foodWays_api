@@ -6,18 +6,17 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
-  const { email, password, fullName, gender, phone, role } = req.body;
-
-  const schema = Joi.object({
-    email: Joi.string().min(5).max(40).required().email(),
-    password: Joi.string().min(8).max(40).trim().required(),
-    fullName: Joi.string().min(4).max(100).required(),
-    gender: Joi.string().min(2).required(),
-    phone: Joi.string(),
-    role: Joi.string(),
-  });
-
   try {
+    const { email, password, fullName, gender, phone, role } = req.body;
+
+    const schema = Joi.object({
+      email: Joi.string().min(5).max(40).required().email(),
+      password: Joi.string().min(8).max(40).trim().required(),
+      fullName: Joi.string().max(100).required(),
+      gender: Joi.string().min(2).required(),
+      phone: Joi.string(),
+      role: Joi.string(),
+    });
     const { error } = schema.validate(req.body);
 
     if (error) {

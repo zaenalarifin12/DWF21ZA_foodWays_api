@@ -8,9 +8,9 @@ const { userById } = require("../../repositories/user");
 module.exports = async (req, res) => {
   try {
     const user = await userById(req, req.userId.id);
-    
+
     let transaction;
-    
+
     if (user.role == "customer") {
       transaction = await transactionsByUserId(req.userId.id);
     } else {

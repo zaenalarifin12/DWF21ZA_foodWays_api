@@ -56,16 +56,25 @@ router.post(
 router.put(
   "/product/:productId",
   authenticated,
-  permit("partner"),
+  // permit("partner"),
   uploadFile("image"),
   ProductController.editProduct
 );
 router.delete(
   "/product/:productId",
-  permit("partner"),
+  // permit("partner"),
   ProductController.deleteProduct
 );
 
+router.get("/product-last/:userId", ProductController.getLastProduct);
+
+
+router.get(
+  "/my-products",
+  authenticated,
+  permit("partner"),
+  ProductController.myProducts
+);
 // transaction
 router.get("/transactions/:userId", TransactionController.getTransaction);
 router.get("/transaction/:id", TransactionController.getDetailTransaction);

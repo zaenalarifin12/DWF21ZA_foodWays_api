@@ -5,14 +5,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
-  const { email, password } = req.body;
-
-  const schema = Joi.object({
-    email: Joi.string().email().max(40).required(),
-    password: Joi.string().min(8).max(40),
-  });
-
   try {
+    const { email, password } = req.body;
+
+    const schema = Joi.object({
+      email: Joi.string().email().max(40).required(),
+      password: Joi.string().min(8).max(40),
+    });
     const { error } = schema.validate(req.body);
 
     if (error) {
@@ -55,9 +54,9 @@ module.exports = async (req, res) => {
         user: {
           fullName: user.fullName,
           email: user.email,
-          token: token
+          role: user.role,
+          token: token,
         },
-
       },
     });
   } catch (error) {

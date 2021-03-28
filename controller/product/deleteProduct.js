@@ -31,5 +31,7 @@ module.exports = async (req, res) => {
         id: productId,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };

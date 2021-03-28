@@ -55,6 +55,9 @@ exports.transactionById = async (id) => {
 exports.transactionsByUserId = async (user_id) => {
   let transactions = null;
   const transactionFromDb = await Transaction.findAll({
+    where: {
+      userId: user_id,
+    },
     include: [
       {
         model: Order,
@@ -69,9 +72,10 @@ exports.transactionsByUserId = async (user_id) => {
       {
         model: User,
         as: "user",
-        where: {
-          id: user_id,
-        },
+      },
+      {
+        model: User,
+        as: "partner",
       },
     ],
     order: [["createdAt", "DESC"]],
@@ -83,10 +87,10 @@ exports.transactionsByUserId = async (user_id) => {
       status: t.status,
       createdAt: t.createdAt,
       userOrder: {
-        id: t.user.id,
-        fullName: t.user.fullName,
-        location: t.user.location,
-        email: t.user.email,
+        id: t.partner.id,
+        fullName: t.partner.fullName,
+        location: t.partner.location,
+        email: t.partner.email,
       },
       order: t.orders.map((order) => {
         total += parseInt(order.product.price) * parseInt(order.qty);
@@ -109,6 +113,9 @@ exports.transactionsByUserId = async (user_id) => {
 exports.transactionsByPartnerId = async (user_id) => {
   let transactions = null;
   const transactionFromDb = await Transaction.findAll({
+    where: {
+      partnerId: user_id,
+    },
     include: [
       {
         model: Order,
@@ -122,14 +129,11 @@ exports.transactionsByPartnerId = async (user_id) => {
       },
       {
         model: User,
-        as: "partner",
-        where: {
-          id: user_id,
-        },
+        as: "user",
       },
       {
         model: User,
-        as: "user",
+        as: "partner",
       },
     ],
     order: [["createdAt", "DESC"]],
