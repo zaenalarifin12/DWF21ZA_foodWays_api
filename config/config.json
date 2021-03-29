@@ -15,7 +15,7 @@
   },
   "production": {
     "username": "jbvkyhartoycuc",
-    "password": "d87829md9lfl0l",
+    "password": "ebde9d475ebe4bbe841bc811dc7c49a0fef9d0ba90c1c6287e5e078c0c240664",
     "database": "d87829md9lfl0l",
     "host": "ec2-54-155-87-214.eu-west-1.compute.amazonaws.com",
     "port" : 5432,
