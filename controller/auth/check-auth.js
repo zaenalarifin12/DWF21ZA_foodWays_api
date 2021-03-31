@@ -10,13 +10,15 @@ module.exports = async (req, res) => {
     }).then((u) => {
       const url = req.protocol + "://" + req.get("host") + "/uploads/";
 
+      const img = u.image == null ? u.image : url + u.image;
+
       user = {
         id: u.id,
         email: u.email,
         fullName: u.fullName,
         phone: u.phone,
         location: u.location,
-        image: url + u.image,
+        image: img,
         role: u.role,
       };
     });

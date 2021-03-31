@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     const isValidPass = await bcrypt.compare(password, user.password);
 
     if (!isValidPass) {
-      return res.status(400).json({
+      return res.status(401).json({
         status: "login failed",
         message: "your credential is not failed",
       });
